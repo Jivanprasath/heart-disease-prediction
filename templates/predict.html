@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Heart Disease Prediction</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Heart Disease Prediction System</h1>
+
+        <!-- Display errors if any -->
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <!-- Display prediction results if available -->
+        {% if prediction %}
+        <div class="result">
+            <h2>Prediction: {{ prediction }}</h2>
+            <p>Probability of Heart Disease: {{ probability }}%</p>
+            <p>Risk Assessment: {{ risk_level }}</p>
+        </div>
+
+        <!-- Display Patient Information Summary only if values are provided -->
+        {% if age and sex and trestbps and chol and fbs and thalach and exang and oldpeak and ca and cp_display and restecg_display and slope_display and thal_display %}
+        <h3>Patient Information Summary:</h3>
+        <table>
+            <tr><th>Field</th><th>Value</th></tr>
+            <tr><td>Age:</td><td>{{ age }}</td></tr>
+            <tr><td>Sex:</td><td>{{ sex }}</td></tr>
+            <tr><td>Resting Blood Pressure:</td><td>{{ trestbps }}</td></tr>
+            <tr><td>Cholesterol:</td><td>{{ chol }}</td></tr>
+            <tr><td>Fasting Blood Sugar:</td><td>{{ fbs }}</td></tr>
+            <tr><td>Maximum Heart Rate Achieved:</td><td>{{ thalach }}</td></tr>
+            <tr><td>Exercise Induced Angina:</td><td>{{ exang }}</td></tr>
+            <tr><td>ST Depression:</td><td>{{ oldpeak }}</td></tr>
+            <tr><td>Number of Major Vessels:</td><td>{{ ca }}</td></tr>
+            <tr><td>Chest Pain Type:</td><td>{{ cp_display }}</td></tr>
+            <tr><td>Resting ECG:</td><td>{{ restecg_display }}</td></tr>
+            <tr><td>Slope of Peak Exercise ST Segment:</td><td>{{ slope_display }}</td></tr>
+            <tr><td>Thalassemia:</td><td>{{ thal_display }}</td></tr>
+        </table>
+        {% endif %}
+        {% endif %}
+
+        <!-- Form -->
+        <form method="POST">
+            {% csrf_token %}
+            
+            <!-- Input fields for numerical data -->
+            <label>Age:</label><input type="number" name="age" required><br>
+
+            <label>Sex (0=Female, 1=Male):</label><input type="number" name="sex" required><br>
+
+            <label>Resting Blood Pressure:</label><input type="number" name="trestbps" required><br>
+
+            <label>Cholesterol:</label><input type="number" name="chol" required><br>
+
+            <label>Fasting Blood Sugar (0 or 1):</label><input type="number" name="fbs" required><br>
+
+            <label>Maximum Heart Rate Achieved:</label><input type="number" name="thalach" required><br>
+
+            <label>Exercise Induced Angina (0 or 1):</label><input type="number" name="exang" required><br>
+
+            <label>ST Depression:</label><input type="number" name="oldpeak" required><br>
+
+            <label>Number of Major Vessels (0-3):</label><input type="number" name="ca" required><br>
+
+            <!-- Dropdown menus for categorical data -->
+            
+            <label>Chest Pain Type:</label>
+            <select name="cp" required>
+                <option value="" disabled selected>Select Chest Pain Type</option>
+                <option value="0">Typical Angina</option>
+                <option value="1">Atypical Angina</option>
+                <option value="2">Non-anginal Pain</option>
+                <option value="3">Asymptomatic</option>
+            </select><br>
+
+            <label>Resting ECG:</label>
+            <select name="restecg" required>
+                <option value="" disabled selected>Select Resting ECG Result</option>
+                <option value="0">Normal</option>
+                <option value="1">ST-T Wave Abnormality</option>
+                <option value="2">Left Ventricular Hypertrophy</option>
+            </select><br>
+
+            <label>Slope of Peak Exercise ST Segment:</label>
+            <select name="slope" required>
+                <option value="" disabled selected>Select Slope of Peak Exercise ST Segment</option>
+                <option value="0">Upsloping</option>
+                <option value="1">Flat</option>
+                <option value="2">Downsloping</option>
+            </select><br>
+
+            <label>Thalassemia:</label>
+            <select name="thal" required>
+                <option value="" disabled selected>Select Thalassemia Type</option>
+                <option value="0">Normal</option>
+                <option value="1">Fixed Defect</option>
+                <option value="2">Reversible Defect</option>
+                <option value="3">Other</option>
+            </select><br>
+
+           <!-- Submit Button -->
+           <button type="submit">Predict</button>
+
+        </form>
+
+    </div>
+
+    <!-- Footer -->
+    <footer style="text-align: center; margin-top: 20px;">
+        Note: This is a machine learning prediction and should not replace professional medical advice.
+    </footer>
+
+</body>
+</html>
